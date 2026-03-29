@@ -153,7 +153,7 @@ namespace ContosoUniversity.Controllers
                     try
                     {
                         // Generate unique blob name
-                        var fileName = $"course_{course.CourseID}_{Guid.NewGuid()}{fileExtension}";
+                        var blobName = $"course_{course.CourseID}_{Guid.NewGuid()}{fileExtension}";
                         var contentType = BlobStorageService.GetContentType(fileExtension);
 
                         // Delete old blob if exists
@@ -164,7 +164,7 @@ namespace ContosoUniversity.Controllers
 
                         // Upload new file to Azure Blob Storage
                         var blobUrl = _blobStorageService.UploadBlob(
-                            teachingMaterialImage.InputStream, fileName, contentType);
+                            teachingMaterialImage.InputStream, blobName, contentType);
                         course.TeachingMaterialImagePath = blobUrl;
                     }
                     catch (Exception ex)

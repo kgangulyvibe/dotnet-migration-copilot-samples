@@ -28,6 +28,9 @@ namespace ContosoUniversity.Services
                 new DefaultAzureCredential());
 
             _containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+            // PublicAccessType.Blob allows anonymous read access to blobs, matching the original
+            // behavior where images were served directly from the web server's ~/Uploads/ directory.
+            // For stricter access control, use PublicAccessType.None with SAS token-based URLs.
             _containerClient.CreateIfNotExists(PublicAccessType.Blob);
         }
 
@@ -43,10 +46,8 @@ namespace ContosoUniversity.Services
                 ContentType = contentType
             };
 
-            blobClient.Upload(fileStream, new BlobUploadOptions
-            {
-                HttpHeaders = blobHttpHeaders
-            });
+            // Upload with overwrite enabled and proper content type
+            blobClient.Upload(fileStream, new BlobUploadOptions { HttpHeaders = blobHttpHeaders });
 
             return blobClient.Uri.ToString();
         }
