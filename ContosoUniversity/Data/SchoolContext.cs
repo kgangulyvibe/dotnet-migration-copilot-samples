@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using ContosoUniversity.Models;
 using Microsoft.EntityFrameworkCore;
 
