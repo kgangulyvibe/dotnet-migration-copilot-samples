@@ -46,6 +46,7 @@ namespace ContosoUniversity.Controllers
 
         // POST: api/notifications/mark-read
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public IActionResult MarkAsRead(int id)
         {
             try
