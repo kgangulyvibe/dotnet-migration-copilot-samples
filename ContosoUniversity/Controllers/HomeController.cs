@@ -43,10 +43,10 @@ namespace ContosoUniversity.Controllers
             return View();
         }
 
-        public new IActionResult Unauthorized()
+        public IActionResult AccessDenied()
         {
             ViewBag.Message = "You don't have permission to access this resource.";
-            return View();
+            return View("Unauthorized");
         }
     }
 }
