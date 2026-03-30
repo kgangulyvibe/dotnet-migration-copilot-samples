@@ -1,4 +1,5 @@
 using System;
+using System.Security.Claims;
 using System.Web.Mvc;
 using ContosoUniversity.Services;
 using ContosoUniversity.Models;
@@ -25,7 +26,10 @@ namespace ContosoUniversity.Controllers
         {
             try
             {
-                var userName = "System"; // No authentication, use System as default user
+                // Use authenticated user's name from Microsoft Entra ID claims
+                var userName = User?.Identity?.IsAuthenticated == true
+                    ? User.Identity.Name ?? GetClaimValue("preferred_username") ?? "Unknown"
+                    : "Anonymous";
                 notificationService.SendNotification(entityType, entityId, entityDisplayName, operation, userName);
             }
             catch (Exception ex)
@@ -33,6 +37,12 @@ namespace ContosoUniversity.Controllers
                 // Log the error but don't break the main operation
                 System.Diagnostics.Debug.WriteLine($"Failed to send notification: {ex.Message}");
             }
+        }
+
+        private string GetClaimValue(string claimType)
+        {
+            var identity = User?.Identity as ClaimsIdentity;
+            return identity?.FindFirst(claimType)?.Value;
         }
 
         protected override void Dispose(bool disposing)

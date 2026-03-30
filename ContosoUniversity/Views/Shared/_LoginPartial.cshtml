@@ -1,0 +1,23 @@
+@if (Request.IsAuthenticated)
+{
+    <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+            <span class="nav-link text-light">Hello, @User.Identity.Name!</span>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Sign out</a>
+        </li>
+    </ul>
+    using (Html.BeginForm("", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "d-none" }))
+    {
+        @Html.AntiForgeryToken()
+    }
+}
+else
+{
+    <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+            <span class="nav-link text-light">Not signed in</span>
+        </li>
+    </ul>
+}

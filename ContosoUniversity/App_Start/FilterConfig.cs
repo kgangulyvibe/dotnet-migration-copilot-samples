@@ -7,8 +7,8 @@ namespace ContosoUniversity
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
-            // Remove the global authorization filter since we're implementing role-based authorization
-            // filters.Add(new AuthorizeAttribute()); // Require authentication for all controllers
+            // Require authentication for all controllers via Microsoft Entra ID
+            filters.Add(new AuthorizeAttribute());
         }
     }
 }
