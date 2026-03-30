@@ -5,13 +5,13 @@
             <span class="nav-link text-light">Hello, @User.Identity.Name!</span>
         </li>
         <li class="nav-item">
-            <a class="nav-link" href="javascript:document.getElementById('logoutForm').submit()">Sign out</a>
+            @using (Html.BeginForm("SignOut", "Account", FormMethod.Post, new { id = "logoutForm", @class = "d-inline" }))
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="nav-link btn btn-link text-light" style="cursor:pointer;">Sign out</button>
+            }
         </li>
     </ul>
-    using (Html.BeginForm("", "Account", new { area = "" }, FormMethod.Post, new { id = "logoutForm", @class = "d-none" }))
-    {
-        @Html.AntiForgeryToken()
-    }
 }
 else
 {
